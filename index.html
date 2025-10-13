@@ -14,8 +14,8 @@
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
-      margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Helvetica,Arial,sans-serif;
-      color:#e5f2fa; background: radial-gradient(1200px 800px at 70% -10%, #10355733, transparent), var(--bg);
+      margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Helvetica,Arial,sans-serif;
+      color:#e5f2fa;background: radial-gradient(1200px 800px at 70% -10%, #10355733, transparent), var(--bg);
       line-height:1.45;
     }
     .wrap{max-width:840px;margin-inline:auto;padding:24px}
@@ -29,8 +29,6 @@
     @media(min-width:740px){.grid{grid-template-columns:1.1fr .9fr}}
     .bullets{display:grid;gap:10px;margin:8px 0}
     .bullets p{margin:0;display:flex;gap:10px;align-items:flex-start}
-    .bullets p span.emoji{filter:drop-shadow(0 2px 6px #0008)}
-    .cta{position:sticky;bottom:10px;z-index:5}
     .btn{display:block;text-align:center;text-decoration:none;font-weight:700;border-radius:14px;padding:16px 18px;background:linear-gradient(180deg,var(--accent),var(--accent-2));color:#001018;box-shadow:0 12px 28px #00d9ff2e, 0 0 0 1px #0aa3c2 inset}
     .btn:active{transform:translateY(1px)}
     .btn small{display:block;font-weight:600;opacity:.9}
@@ -40,23 +38,25 @@
     .qr{display:grid;place-items:center;padding:14px;border-radius:14px;background:#082131;border:1px solid #11364a}
     footer{opacity:.7;font-size:12px;margin-top:22px}
     .muted{color:var(--muted)}
+    .lang{margin-left:auto;display:flex;gap:8px}
+    .lang button{background:#0f223333;color:#cfe9f4;border:1px solid #1b4e68;border-radius:12px;padding:8px 10px;cursor:pointer}
+    .lang button.active{background:#0ea5b7;color:#001018;border-color:#0ea5b7}
     .hero{width:100%;max-width:260px;border-radius:12px;border:1px solid #14344a;margin-bottom:10px}
   </style>
 </head>
 <body>
   <script>
-    // Настройки
     const SETTINGS = {
       PHONE: "+37129374410",
       WHATS: "+37129374410",
-      MAP:   "https://maps.google.com?q=Diveriga+Riga"
+      MAP: "https://maps.google.com?q=Diveriga+Riga"
     };
   </script>
 
   <div class="wrap">
     <header>
       <div class="logo" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Маска и ласты">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M12 5c3 0 6 1 6 3.5S15 12 12 12s-6-1.5-6-3.5S9 5 12 5Z" stroke="#8be4ff" stroke-width="1.4"/>
           <rect x="6.5" y="8" width="11" height="5" rx="2.5" stroke="#8be4ff" stroke-width="1.4"/>
           <circle cx="12" cy="10.5" r="1.1" fill="#8be4ff"/>
@@ -64,81 +64,105 @@
         </svg>
       </div>
       <div>
-        <div class="kicker">Diveriga × ДАЙВДЕТИ</div>
-        <h1>Хочешь попробовать нырнуть? 🤿</h1>
-        <div class="muted">Безопасное пробное занятие с инструктором. Для детей 9–16 лет. Рига.</div>
+        <div class="kicker" id="kicker">Diveriga × ДАЙВДЕТИ</div>
+        <h1 id="title">Хочешь попробовать нырнуть? 🤿</h1>
+        <div class="muted" id="sub">Безопасное пробное занятие с инструктором. Для детей 9–16 лет. Рига.</div>
+      </div>
+      <div class="lang">
+        <button id="btn-ru" class="active" onclick="setLang('ru')">🇷🇺 RU</button>
+        <button id="btn-lv" onclick="setLang('lv')">🇱🇻 LV</button>
       </div>
     </header>
 
     <section class="grid card">
       <div>
-        <div class="badge">✅ 60–90 минут · бассейн · инструктор рядом</div>
-        <div class="bullets">
-          <p><span class="emoji">🛟</span> <strong>Безопасно:</strong> детская маска, ласты, дыхание у бортика, всё по шагам.</p>
-          <p><span class="emoji">🎯</span> <strong>Понятно:</strong> объясняем как работает снаряжение и что ребёнок почувствует под водой.</p>
-          <p><span class="emoji">😄</span> <strong>Весело:</strong> мини-игры и «первые пузыри» — чтобы было, чем хвастаться дома.</p>
-        </div>
+        <div class="badge" id="badge">✅ 60–90 минут · бассейн · инструктор рядом</div>
+        <div class="bullets" id="bullets"></div>
         <div class="two">
-          <a id="callBtn" class="btn" href="#"><strong>Позвонить и записаться</strong><small id="phoneText"></small></a>
-          <a id="waBtn" class="btn ghost" href="#">Написать в WhatsApp</a>
+          <a id="callBtn" class="btn" href="#"><strong id="callText">Позвонить и записаться</strong><small id="phoneText"></small></a>
+          <a id="waBtn" class="btn ghost" href="#"><span id="waText">Написать в WhatsApp</span></a>
         </div>
       </div>
-     <div class="qr">
-  <img class="hero" src="Hero.jpg" alt="Дети в бассейне в масках" loading="lazy" />
-  <img src="QR.png" alt="QR-код для родителей" width="220" height="220" style="border-radius:12px;border:1px solid #14344a;" />
-  <div class="muted" style="margin-top:8px;font-size:13px">
-    Покажи этот QR родителям — мы всё объясним в 1–2 шага
-  </div>
-</div>
-    </section>
-
-    <section class="card">
-      <h2 style="margin:6px 0 10px;font-size:22px">Как это проходит</h2>
-      <ol style="margin:0 0 10px 18px;padding:0;">
-        <li>Короткий бриф у бортика: правила и сигналы «ОК».</li>
-        <li>Примерка маски/ласты → дыхание через трубку.</li>
-        <li>Игровые задания под присмотром инструктора.</li>
-      </ol>
-      <p class="muted" style="margin:0">По желанию: зачёт «первого погружения» засчитывается при старте курса.</p>
-    </section>
-
-    <section class="card">
-      <h2 style="margin:6px 0 10px;font-size:22px">Вопросы родителей</h2>
-      <div class="bullets">
-        <p><span class="emoji">📅</span> <strong>Когда?</strong> Уточняем ближайшие окна — обычно выходные и будние вечера.</p>
-        <p><span class="emoji">📍</span> <strong>Где?</strong> Удобный бассейн в Риге. <a id="mapLink" href="#" style="color:#7ad7e8">Открыть на карте</a></p>
-        <p><span class="emoji">💳</span> <strong>Сколько стоит?</strong> Стоимость пробного уточнит администратор по звонку.</p>
+      <div class="qr">
+        <img class="hero" src="Hero.jpg" alt="Дети в бассейне" loading="lazy" />
+        <img src="QR.png" alt="QR-код для родителей" width="220" height="220" style="border-radius:12px;border:1px solid #14344a;margin-top:8px" />
+        <div class="muted" id="qrHint" style="margin-top:8px;font-size:13px">Покажи этот QR родителям — мы всё объясним в 1–2 шага</div>
       </div>
     </section>
 
-    <div class="cta">
-      <a id="callBtn2" class="btn" href="#"><strong>Позвонить в Diveriga</strong><small id="phoneText2"></small></a>
-    </div>
+    <section class="card">
+      <h2 id="howTitle" style="margin:6px 0 10px;font-size:22px">Как это проходит</h2>
+      <ol id="howList" style="margin:0 0 10px 18px;padding:0;"></ol>
+      <p class="muted" id="credit" style="margin:0">По желанию: зачёт «первого погружения» засчитывается при старте курса.</p>
+    </section>
 
-    <footer class="muted">
-      © Diveriga · ДАЙВДЕТИ · Сделано для школьных презентаций. Нажмите «Позвонить», чтобы согласовать дату.
-    </footer>
+    <section class="card">
+      <h2 id="faqTitle" style="margin:6px 0 10px;font-size:22px">Вопросы родителей</h2>
+      <div class="bullets" id="faq"></div>
+      <p class="muted"><a id="mapLink" href="#" style="color:#7ad7e8">Открыть на карте</a></p>
+    </section>
+
+    <a id="callBtn2" class="btn" href="#" style="position:sticky;bottom:10px;display:block"><strong id="callText2">Позвонить в Diveriga</strong><small id="phoneText2"></small></a>
+
+    <footer class="muted" id="footer">© Diveriga · ДАЙВДЕТИ · Страница для школьных презентаций. Нажмите «Позвонить», чтобы согласовать дату.</footer>
   </div>
 
   <script>
-    (function init(){
-      const phone = SETTINGS.PHONE.replace(/\s|\-/g,"");
-      const wa = SETTINGS.WHATS.replace(/\s|\-/g,"");
-      const telHref = `tel:${phone}`;
-      const waHref = `https://wa.me/${wa.replace(/^\+/,"")}`;
-      const url = window.location.href.split('#')[0];
+    const STR = {
+      ru: {
+        bullets: [
+          "🛟 <strong>Безопасно:</strong> детская маска, ласты, дыхание у бортика, всё по шагам.",
+          "🎯 <strong>Понятно:</strong> объясняем, как работает снаряжение и что ребёнок почувствует под водой.",
+          "😄 <strong>Весело:</strong> мини-игры и «первые пузыри» — чтобы было, чем хвастаться дома."
+        ],
+        howList: [
+          "Короткий бриф у бортика: правила и сигнал «ОК».",
+          "Примерка маски/ласты → дыхание через трубку.",
+          "Игровые задания под присмотром инструктора."
+        ],
+        faq: [
+          "<strong>Когда?</strong> Уточняем ближайшие окна — обычно выходные и будние вечера.",
+          "<strong>Где?</strong> Удобный бассейн в Риге.",
+          "<strong>Сколько стоит?</strong> Стоимость пробного уточнит администратор по звонку."
+        ]
+      },
+      lv: {
+        bullets: [
+          "🛟 <strong>Droši:</strong> bērnu maska, pleznas, elpošana pie malas — soli pa solim.",
+          "🎯 <strong>Saprotami:</strong> izskaidrojam aprīkojumu un sajūtas zem ūdens.",
+          "😄 <strong>Interesanti:</strong> mini spēles un ‘pirmie burbuļi’, lai būtu ko pastāstīt mājās."
+        ],
+        howList: [
+          "Īsa instruktāža pie malas: noteikumi un ‘OK’ žests.",
+          "Maska/pleznas → elpošana caur trubiņu.",
+          "Spēles ūdenī instruktora uzraudzībā."
+        ],
+        faq: [
+          "<strong>Kad?</strong> Tuvākie laiki parasti brīvdienās un vakaros.",
+          "<strong>Kur?</strong> Ērts baseins Rīgā.",
+          "<strong>Cik maksā?</strong> Administrators pastāstīs pa telefonu."
+        ]
+      }
+    };
 
-      // Кнопки
-      const call1 = document.getElementById('callBtn');
-      const call2 = document.getElementById('callBtn2');
-      const waBtn = document.getElementById('waBtn');
-      call1.href = call2.href = telHref;
-      waBtn.href = waHref;
-      document.getElementById('phoneText').textContent = SETTINGS.PHONE;
-      document.getElementById('phoneText2').textContent = SETTINGS.PHONE;
-      document.getElementById('mapLink').href = SETTINGS.MAP;
+    function setLang(lang){
+      document.getElementById('btn-ru').classList.toggle('active', lang==='ru');
+      document.getElementById('btn-lv').classList.toggle('active', lang==='lv');
+      const t = STR[lang];
+      document.getElementById('bullets').innerHTML = t.bullets.map(x=>`<p>${x}</p>`).join('');
+      document.getElementById('howList').innerHTML = t.howList.map(x=>`<li>${x}</li>`).join('');
+      document.getElementById('faq').innerHTML = t.faq.map(x=>`<p>${x}</p>`).join('');
+    }
+    setLang('ru');
 
-  
+    const phone = SETTINGS.PHONE.replace(/\\s|\\-/g,'');
+    const wa = SETTINGS.WHATS.replace(/\\s|\\-/g,'');
+    const telHref = `tel:${phone}`;
+    const waHref = `https://wa.me/${wa.replace(/^\\+/,'')}`;
+    document.getElementById('callBtn').href = document.getElementById('callBtn2').href = telHref;
+    document.getElementById('waBtn').href = waHref;
+    document.getElementById('phoneText').textContent = document.getElementById('phoneText2').textContent = SETTINGS.PHONE;
+    document.getElementById('mapLink').href = SETTINGS.MAP;
   </script>
 </body>
 </html>
