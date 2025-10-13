@@ -8,19 +8,14 @@
   <meta name="theme-color" content="#0e7490" />
   <style>
     :root{
-      --bg:#0b1220;
-      --card:#0f172a;
-      --muted:#97b3c6;
-      --accent:#06b6d4;
-      --accent-2:#0891b2;
-      --ok:#22c55e;
-      --danger:#ef4444;
+      --bg:#0b1220; --card:#0f172a; --muted:#97b3c6;
+      --accent:#06b6d4; --accent-2:#0891b2; --ok:#22c55e; --danger:#ef4444;
     }
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
-      margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Helvetica,Arial,sans-serif;
-      color:#e5f2fa;background: radial-gradient(1200px 800px at 70% -10%, #10355733, transparent), var(--bg);
+      margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Helvetica,Arial,sans-serif;
+      color:#e5f2fa; background: radial-gradient(1200px 800px at 70% -10%, #10355733, transparent), var(--bg);
       line-height:1.45;
     }
     .wrap{max-width:840px;margin-inline:auto;padding:24px}
@@ -45,15 +40,16 @@
     .qr{display:grid;place-items:center;padding:14px;border-radius:14px;background:#082131;border:1px solid #11364a}
     footer{opacity:.7;font-size:12px;margin-top:22px}
     .muted{color:var(--muted)}
+    .hero{width:100%;max-width:260px;border-radius:12px;border:1px solid #14344a;margin-bottom:10px}
   </style>
 </head>
 <body>
   <script>
+    // Настройки
     const SETTINGS = {
-      PHONE: "+37129374410",   // телефон Diveriga
-      WHATS: "+37129374410",   // номер для WhatsApp
-      MAP:   "https://maps.google.com?q=Diveriga+Riga",
-      HERO: "https://raw.githubusercontent.com/VPuziryov/divekids/main/Hero.jpg" // главное фото HERO Lite
+      PHONE: "+37129374410",
+      WHATS: "+37129374410",
+      MAP:   "https://maps.google.com?q=Diveriga+Riga"
     };
   </script>
 
@@ -88,9 +84,10 @@
         </div>
       </div>
       <div class="qr">
-        <img id="hero" alt="Дети в бассейне" style="width:100%;max-width:260px;border-radius:12px;border:1px solid #14344a;margin-bottom:10px" />
+        <!-- ВАЖНО: Hero.jpg лежит рядом с index.html -->
+        <img class="hero" src="Hero.jpg" alt="Дети в бассейне в масках" loading="lazy" />
         <div id="qrcode" aria-label="QR-код для родителей"></div>
-        <div class="muted" style="margin-top:8px;font-size:13px">Покажи этот QR родителям — мы всё объясним в 1-2 шага</div>
+        <div class="muted" style="margin-top:8px;font-size:13px">Покажи этот QR родителям — мы всё объясним в 1–2 шага</div>
       </div>
     </section>
 
@@ -130,6 +127,7 @@
       const waHref = `https://wa.me/${wa.replace(/^\+/,"")}`;
       const url = window.location.href.split('#')[0];
 
+      // Кнопки
       const call1 = document.getElementById('callBtn');
       const call2 = document.getElementById('callBtn2');
       const waBtn = document.getElementById('waBtn');
@@ -139,16 +137,12 @@
       document.getElementById('phoneText2').textContent = SETTINGS.PHONE;
       document.getElementById('mapLink').href = SETTINGS.MAP;
 
+      // QR как <img>
       const q = document.getElementById('qrcode');
       const img = new Image();
-      const encoded = encodeURIComponent(url);
-      img.src = `https://chart.googleapis.com/chart?cht=qr&chs=220x220&chld=M|0&chl=${encoded}`;
+      img.src = `https://chart.googleapis.com/chart?cht=qr&chs=220x220&chld=M|0&chl=${encodeURIComponent(url)}`;
       img.width = 220; img.height = 220; img.alt = 'QR-код на эту страницу';
       q.appendChild(img);
-
-      // HERO
-      const heroImg = document.getElementById('hero');
-      heroImg.src = SETTINGS.HERO;
     })();
   </script>
 </body>
