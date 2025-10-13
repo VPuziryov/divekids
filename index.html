@@ -3,14 +3,10 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Пробное погружение для детей — Diveriga × ДАЙВДЕТИ</title>
-  <meta name="description" content="Хочешь попробовать нырнуть? Безопасное пробное занятие с инструктором. Позвоните в Diveriga — забронируйте место." />
+  <title>Diveriga × ДАЙВДЕТИ — Пробное погружение</title>
   <meta name="theme-color" content="#0e7490" />
   <style>
-    :root{
-      --bg:#0b1220; --card:#0f172a; --muted:#97b3c6;
-      --accent:#06b6d4; --accent-2:#0891b2; --ok:#22c55e; --danger:#ef4444;
-    }
+    :root{ --bg:#0b1220; --card:#0f172a; --muted:#97b3c6; --accent:#06b6d4; --accent-2:#0891b2; }
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
@@ -46,17 +42,80 @@
 </head>
 <body>
   <script>
+    // Контакты и карты (стабильные для обеих локалей)
     const SETTINGS = {
       PHONE: "+37129374410",
       WHATS: "+37129374410",
       MAP: "https://maps.google.com?q=Diveriga+Riga"
+    };
+
+    // Все тексты: RU и LV
+    const STR = {
+      ru: {
+        kicker: "Diveriga × ДАЙВДЕТИ",
+        h1: "Хочешь попробовать нырнуть? 🤿",
+        sub: "Безопасное пробное занятие с инструктором. Для детей 9–16 лет. Рига.",
+        badge: "✅ 60–90 минут · бассейн · инструктор рядом",
+        bullets: [
+          "🛟 <strong>Безопасно:</strong> детская маска, ласты, дыхание у бортика — всё по шагам.",
+          "🎯 <strong>Понятно:</strong> объясняем, как работает снаряжение и что ребёнок почувствует под водой.",
+          "😄 <strong>Весело:</strong> мини-игры и «первые пузыри» — есть чем хвастаться дома."
+        ],
+        call: "Позвонить и записаться",
+        call2: "Позвонить в Diveriga",
+        whatsapp: "Написать в WhatsApp",
+        qrHint: "Покажи этот QR родителям — мы всё объясним в 1–2 шага",
+        howTitle: "Как это проходит",
+        howList: [
+          "Короткий бриф у бортика: правила и сигнал «ОК».",
+          "Примерка маски/ласты → дыхание через трубку.",
+          "Игровые задания под присмотром инструктора."
+        ],
+        credit: "По желанию: зачёт «первого погружения» засчитывается при старте курса.",
+        faqTitle: "Вопросы родителей",
+        faq: [
+          "<strong>Когда?</strong> Ближайшие окна — выходные и будние вечера.",
+          "<strong>Где?</strong> Удобный бассейн в Риге. <a id='mapLink' style='color:#7ad7e8'>Открыть на карте</a>",
+          "<strong>Сколько стоит?</strong> Стоимость уточнит администратор по звонку."
+        ],
+        footer: "© Diveriga · ДАЙВДЕТИ · Страница для школьных презентаций. Нажмите «Позвонить», чтобы согласовать дату."
+      },
+      lv: {
+        kicker: "Diveriga × DAĪVDETI",
+        h1: "Gribi pamēģināt nirt? 🤿",
+        sub: "Droša iepazīšanās nodarbība ar instruktoru. Bērniem 9–16 g. Rīga.",
+        badge: "✅ 60–90 min · baseins · instruktors blakus",
+        bullets: [
+          "🛟 <strong>Droši:</strong> bērnu maska, pleznas, elpošana pie malas — soli pa solim.",
+          "🎯 <strong>Saprotami:</strong> izskaidrojam aprīkojumu un sajūtas zem ūdens.",
+          "😄 <strong>Interesanti:</strong> mini spēles un “pirmie burbuļi” — būs ko pastāstīt mājās."
+        ],
+        call: "Zvanīt un pieteikties",
+        call2: "Zvanīt uz Diveriga",
+        whatsapp: "Rakstīt WhatsApp",
+        qrHint: "Parādi šo QR vecākiem — visu izskaidrosim 1–2 soļos",
+        howTitle: "Kā tas notiek",
+        howList: [
+          "Īsa instruktāža pie malas: noteikumi un “OK” žests.",
+          "Maska/pleznas → elpošana caur trubiņu.",
+          "Spēles ūdenī instruktora uzraudzībā."
+        ],
+        credit: "Pēc izvēles: “pirmā ieniršana” tiek ieskaitīta, uzsākot kursu.",
+        faqTitle: "Biežākie jautājumi",
+        faq: [
+          "<strong>Kad?</strong> Tuvākie laiki parasti brīvdienās un vakaros.",
+          "<strong>Kur?</strong> Ērts baseins Rīgā. <a id='mapLink' style='color:#7ad7e8'>Atvērt kartē</a>",
+          "<strong>Cik maksā?</strong> Administrators pastāstīs pa telefonu."
+        ],
+        footer: "© Diveriga · DAĪVDETI · Lapa skolas prezentācijām. Spied “Zvanīt”, lai vienotos par datumu."
+      }
     };
   </script>
 
   <div class="wrap">
     <header>
       <div class="logo" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mask & fins">
           <path d="M12 5c3 0 6 1 6 3.5S15 12 12 12s-6-1.5-6-3.5S9 5 12 5Z" stroke="#8be4ff" stroke-width="1.4"/>
           <rect x="6.5" y="8" width="11" height="5" rx="2.5" stroke="#8be4ff" stroke-width="1.4"/>
           <circle cx="12" cy="10.5" r="1.1" fill="#8be4ff"/>
@@ -64,11 +123,11 @@
         </svg>
       </div>
       <div>
-        <div class="kicker" id="kicker">Diveriga × ДАЙВДЕТИ</div>
-        <h1 id="title">Хочешь попробовать нырнуть? 🤿</h1>
-        <div class="muted" id="sub">Безопасное пробное занятие с инструктором. Для детей 9–16 лет. Рига.</div>
+        <div class="kicker" id="kicker"></div>
+        <h1 id="title"></h1>
+        <div class="muted" id="sub"></div>
       </div>
-      <div class="lang">
+      <div class="lang" role="tablist" aria-label="Language switcher">
         <button id="btn-ru" class="active" onclick="setLang('ru')">🇷🇺 RU</button>
         <button id="btn-lv" onclick="setLang('lv')">🇱🇻 LV</button>
       </div>
@@ -76,93 +135,98 @@
 
     <section class="grid card">
       <div>
-        <div class="badge" id="badge">✅ 60–90 минут · бассейн · инструктор рядом</div>
+        <div class="badge" id="badge"></div>
         <div class="bullets" id="bullets"></div>
         <div class="two">
-          <a id="callBtn" class="btn" href="#"><strong id="callText">Позвонить и записаться</strong><small id="phoneText"></small></a>
-          <a id="waBtn" class="btn ghost" href="#"><span id="waText">Написать в WhatsApp</span></a>
+          <a id="callBtn" class="btn" href="#"><strong id="callText"></strong><small id="phoneText"></small></a>
+          <a id="waBtn" class="btn ghost" href="#"><span id="waText"></span></a>
         </div>
       </div>
       <div class="qr">
-        <img class="hero" src="Hero.jpg" alt="Дети в бассейне" loading="lazy" />
-        <img src="QR.png" alt="QR-код для родителей" width="220" height="220" style="border-radius:12px;border:1px solid #14344a;margin-top:8px" />
-        <div class="muted" id="qrHint" style="margin-top:8px;font-size:13px">Покажи этот QR родителям — мы всё объясним в 1–2 шага</div>
+        <img class="hero" src="Hero.jpg" alt="Hero" loading="lazy" />
+        <img src="QR.png" alt="QR" width="220" height="220" style="border-radius:12px;border:1px solid #14344a;margin-top:8px" />
+        <div class="muted" id="qrHint" style="margin-top:8px;font-size:13px"></div>
       </div>
     </section>
 
     <section class="card">
-      <h2 id="howTitle" style="margin:6px 0 10px;font-size:22px">Как это проходит</h2>
+      <h2 id="howTitle" style="margin:6px 0 10px;font-size:22px"></h2>
       <ol id="howList" style="margin:0 0 10px 18px;padding:0;"></ol>
-      <p class="muted" id="credit" style="margin:0">По желанию: зачёт «первого погружения» засчитывается при старте курса.</p>
+      <p class="muted" id="credit" style="margin:0"></p>
     </section>
 
     <section class="card">
-      <h2 id="faqTitle" style="margin:6px 0 10px;font-size:22px">Вопросы родителей</h2>
+      <h2 id="faqTitle" style="margin:6px 0 10px;font-size:22px"></h2>
       <div class="bullets" id="faq"></div>
-      <p class="muted"><a id="mapLink" href="#" style="color:#7ad7e8">Открыть на карте</a></p>
     </section>
 
-    <a id="callBtn2" class="btn" href="#" style="position:sticky;bottom:10px;display:block"><strong id="callText2">Позвонить в Diveriga</strong><small id="phoneText2"></small></a>
+    <a id="callBtn2" class="btn" href="#" style="position:sticky;bottom:10px;display:block">
+      <strong id="callText2"></strong><small id="phoneText2"></small>
+    </a>
 
-    <footer class="muted" id="footer">© Diveriga · ДАЙВДЕТИ · Страница для школьных презентаций. Нажмите «Позвонить», чтобы согласовать дату.</footer>
+    <footer class="muted" id="footer"></footer>
   </div>
 
   <script>
-    const STR = {
-      ru: {
-        bullets: [
-          "🛟 <strong>Безопасно:</strong> детская маска, ласты, дыхание у бортика, всё по шагам.",
-          "🎯 <strong>Понятно:</strong> объясняем, как работает снаряжение и что ребёнок почувствует под водой.",
-          "😄 <strong>Весело:</strong> мини-игры и «первые пузыри» — чтобы было, чем хвастаться дома."
-        ],
-        howList: [
-          "Короткий бриф у бортика: правила и сигнал «ОК».",
-          "Примерка маски/ласты → дыхание через трубку.",
-          "Игровые задания под присмотром инструктора."
-        ],
-        faq: [
-          "<strong>Когда?</strong> Уточняем ближайшие окна — обычно выходные и будние вечера.",
-          "<strong>Где?</strong> Удобный бассейн в Риге.",
-          "<strong>Сколько стоит?</strong> Стоимость пробного уточнит администратор по звонку."
-        ]
-      },
-      lv: {
-        bullets: [
-          "🛟 <strong>Droši:</strong> bērnu maska, pleznas, elpošana pie malas — soli pa solim.",
-          "🎯 <strong>Saprotami:</strong> izskaidrojam aprīkojumu un sajūtas zem ūdens.",
-          "😄 <strong>Interesanti:</strong> mini spēles un ‘pirmie burbuļi’, lai būtu ko pastāstīt mājās."
-        ],
-        howList: [
-          "Īsa instruktāža pie malas: noteikumi un ‘OK’ žests.",
-          "Maska/pleznas → elpošana caur trubiņu.",
-          "Spēles ūdenī instruktora uzraudzībā."
-        ],
-        faq: [
-          "<strong>Kad?</strong> Tuvākie laiki parasti brīvdienās un vakaros.",
-          "<strong>Kur?</strong> Ērts baseins Rīgā.",
-          "<strong>Cik maksā?</strong> Administrators pastāstīs pa telefonu."
-        ]
-      }
-    };
+    // Телефоны и ссылки
+    const phone = SETTINGS.PHONE.replace(/\s|-/g,'');
+    const wa = SETTINGS.WHATS.replace(/\s|-/g,'');
+    const telHref = `tel:${phone}`;
+    const waHref = `https://wa.me/${wa.replace(/^\+/,'')}`;
 
+    // Рендер текста для выбранного языка
     function setLang(lang){
+      const t = STR[lang];
+
+      document.documentElement.setAttribute('lang', lang);
       document.getElementById('btn-ru').classList.toggle('active', lang==='ru');
       document.getElementById('btn-lv').classList.toggle('active', lang==='lv');
-      const t = STR[lang];
-      document.getElementById('bullets').innerHTML = t.bullets.map(x=>`<p>${x}</p>`).join('');
-      document.getElementById('howList').innerHTML = t.howList.map(x=>`<li>${x}</li>`).join('');
-      document.getElementById('faq').innerHTML = t.faq.map(x=>`<p>${x}</p>`).join('');
-    }
-    setLang('ru');
 
-    const phone = SETTINGS.PHONE.replace(/\\s|\\-/g,'');
-    const wa = SETTINGS.WHATS.replace(/\\s|\\-/g,'');
-    const telHref = `tel:${phone}`;
-    const waHref = `https://wa.me/${wa.replace(/^\\+/,'')}`;
-    document.getElementById('callBtn').href = document.getElementById('callBtn2').href = telHref;
-    document.getElementById('waBtn').href = waHref;
-    document.getElementById('phoneText').textContent = document.getElementById('phoneText2').textContent = SETTINGS.PHONE;
-    document.getElementById('mapLink').href = SETTINGS.MAP;
+      // Заголовки/подзаголовки
+      kicker.textContent = t.kicker;
+      title.textContent = t.h1;
+      sub.textContent = t.sub;
+
+      // Бейдж/списки
+      badge.textContent = t.badge;
+      bullets.innerHTML = t.bullets.map(x=>`<p>${x}</p>`).join('');
+      howTitle.textContent = t.howTitle;
+      howList.innerHTML = t.howList.map(x=>`<li>${x}</li>`).join('');
+      credit.innerHTML = t.credit;
+
+      // FAQ (включая ссылку на карту с локализованным текстом)
+      faqTitle.textContent = t.faqTitle;
+      faq.innerHTML = t.faq.join('');
+      const mapLink = document.getElementById('mapLink');
+      if(mapLink){ mapLink.href = SETTINGS.MAP; }
+
+      // Кнопки/подписи
+      callText.textContent = t.call;
+      callText2.textContent = t.call2;
+      waText.textContent = t.whatsapp;
+      qrHint.textContent = t.qrHint;
+      footer.textContent = t.footer;
+
+      // Телефонные подписи и href — общие
+      callBtn.href = callBtn2.href = telHref;
+      waBtn.href = waHref;
+      phoneText.textContent = phoneText2.textContent = SETTINGS.PHONE;
+    }
+
+    // Кэш ссылок на элементы
+    const {
+      kicker, title, sub, badge, bullets, callText, callText2, waText, qrHint,
+      howTitle, howList, credit, faqTitle, faq, footer,
+      callBtn, callBtn2, waBtn, phoneText, phoneText2
+    } = Object.fromEntries(
+      ['kicker','title','sub','badge','bullets','callText','callText2','waText','qrHint',
+       'howTitle','howList','credit','faqTitle','faq','footer',
+       'callBtn','callBtn2','waBtn','phoneText','phoneText2'
+      ].map(id=>[id, document.getElementById(id)])
+    );
+
+    // Начальная локаль
+    setLang('ru');
   </script>
 </body>
 </html>
