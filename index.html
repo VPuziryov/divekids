@@ -228,5 +228,115 @@
     // Начальная локаль
     setLang('ru');
   </script>
+  <!-- === БАЗОВЫЙ ПИКСЕЛЬ Meta (HVU) — вставлять ТОЛЬКО если fbq ещё не инициализирован === -->
+<script>
+if (!window.fbq) {
+  !function(f,b,e,v,n,t,s){
+    if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)
+  }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '675997335920840');
+  fbq('track', 'PageView'); /* HVU */
+}
+</script>
+
+<!-- === КАСТОМНЫЕ СОБЫТИЯ (Parents) + АНТИДУБЛИ === -->
+<script>
+(function(){
+  // --- ТЕСТ-ВЫКЛЮЧАТЕЛЬ: ?no_fb=1 или localStorage.setItem('fb_suppress','1')
+  const qs = new URLSearchParams(location.search);
+  const SUPPRESSED = qs.has('no_fb') || localStorage.getItem('fb_suppress') === '1';
+  if (SUPPRESSED) return;
+
+  // --- Параметры: meta > подстановки
+  const meta = n => document.querySelector(`meta[name="${n}"]`)?.content;
+  const region = meta('region') || 'LV';
+  const center = meta('center') || 'DIVERIGA';
+  const basePayload = { region, center };
+
+  // --- Частотный ограничитель (TTL, в часах)
+  function shouldSend(name, ttlHours, keyExtra=''){
+    try {
+      const key = `fb_evt_${name}_${keyExtra}`;
+      const now = Date.now(), ttl = ttlHours * 3600 * 1000;
+      const last = parseInt(localStorage.getItem(key) || '0', 10);
+      if (last && (now - last) < ttl) return false;
+      localStorage.setItem(key, String(now));
+      return true;
+    } catch(e){ return true; }
+  }
+
+  function trackOnce(name, params, ttlHours, keyExtra=''){
+    if (!window.fbq) return;
+    if (!shouldSend(name, ttlHours, keyExtra)) return;
+    fbq('trackCustom', name, params);
+  }
+
+  // 1) ViewContent_PARENTS_7s — не чаще 1/12ч на region+center
+  setTimeout(function(){
+    trackOnce('ViewContent_PARENTS_7s', basePayload, 12, `${region}_${center}`);
+  }, 7000);
+
+  // 2) Scroll75_PARENTS — не чаще 1/24ч на region+center
+  let scrolled = false, rafScheduled = false;
+  window.addEventListener('scroll', function(){
+    if (scrolled || rafScheduled) return;
+    rafScheduled = true;
+    requestAnimationFrame(function(){
+      rafScheduled = false;
+      const doc = document.documentElement;
+      const top = doc.scrollTop || document.body.scrollTop;
+      const height = doc.scrollHeight - doc.clientHeight;
+      if (height > 0 && (top / height) >= 0.75){
+        scrolled = true;
+        trackOnce('Scroll75_PARENTS', basePayload, 24, `${region}_${center}`);
+      }
+    });
+  }, {passive:true});
+
+  // 3) ContactClick_PARENTS — не чаще 1/4ч на region+center+type
+  document.addEventListener('click', function(e){
+    if (!window.fbq) return;
+    let type = null;
+
+    // Явная разметка data-contact
+    const btn = e.target.closest('[data-contact]');
+    if (btn){
+      const v = (btn.getAttribute('data-contact') || '').toLowerCase();
+      if (v === 'call' || v === 'whatsapp') type = v;
+    }
+
+    // Авто-детект по href при отсутствии data-contact
+    if (!type){
+      const a = e.target.closest('a[href]');
+      if (a){
+        const href = a.getAttribute('href') || '';
+        if (href.startsWith('tel:')) type = 'call';
+        if (href.includes('wa.me') || href.includes('api.whatsapp.com')) type = 'whatsapp';
+      }
+    }
+
+    if (!type) return;
+    trackOnce('ContactClick_PARENTS',
+      { ...basePayload, contact_type: type },
+      4,
+      `${region}_${center}_${type}`
+    );
+  });
+
+  // Подсказки для теста (в консоли):
+  //   localStorage.setItem('fb_suppress','1')  // отключить отправку
+  //   localStorage.removeItem('fb_suppress')    // включить обратно
+})();
+</script>
+
+<!-- === NO-SCRIPT fallback — добавлять ТОЛЬКО если вы вставляли init выше === -->
+<noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=675997335920840&ev=PageView&noscript=1"
+/></noscript>
 </body>
 </html>
